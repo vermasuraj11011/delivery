@@ -1,6 +1,7 @@
 package com.delivery.Delivery_app.entity;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
