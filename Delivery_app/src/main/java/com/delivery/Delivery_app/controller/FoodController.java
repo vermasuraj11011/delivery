@@ -17,23 +17,23 @@ public class FoodController {
     public List<Food> getAllFoods(){
         return foodService.getAllFoods();
     }
-
     //    get food endpoint
     @GetMapping("/food/{id}")
-    public Food getRestaurant(@PathVariable("id") long food_id){
+    public Food getRestaurant(@PathVariable("id") long food_id) {
         return foodService.getFood(food_id);
     }
-
     //    add food endpoint
     @PostMapping("/food/restaurant/{id}")
     public Food addFood(@RequestBody Food food,@PathVariable("id") long restaurant_id){
         return foodService.addFood(food,restaurant_id);
     }
+
     //    update existing food
     @PutMapping("/food")
     public String updateFood(@RequestBody Food food){
         return foodService.updateFood(food);
     }
+
     //  Delete food from existing db
     @DeleteMapping("/food/{id}")
     public String deleteRestaurant(@PathVariable("id") long food_id ){
