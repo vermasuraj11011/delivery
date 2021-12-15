@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CartController {
 
@@ -34,8 +36,8 @@ public class CartController {
     @GetMapping("/cart/{cartId}")
     public ResponseEntity getFoodListInCart(@PathVariable Long cartId){
 
-        cartService.getFoodListInCart(cartId);
+        List foodList = cartService.getFoodListInCart(cartId);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(foodList,HttpStatus.OK);
     }
 }
