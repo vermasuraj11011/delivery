@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -19,6 +16,7 @@ import javax.persistence.ManyToOne;
 public class Food {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long food_id;
     private String food_name;
     private String food_description;
