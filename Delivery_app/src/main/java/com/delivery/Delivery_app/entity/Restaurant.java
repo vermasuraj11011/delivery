@@ -32,5 +32,5 @@ public class Restaurant {
     public void removeFood(Food food){
         this.foodList.remove(food);
     }
-    
+
 }
