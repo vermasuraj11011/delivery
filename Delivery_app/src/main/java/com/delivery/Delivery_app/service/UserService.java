@@ -7,8 +7,8 @@ import com.delivery.Delivery_app.entity.User;
 import com.delivery.Delivery_app.repository.AutoGenerateRepository;
 import com.delivery.Delivery_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -22,8 +22,8 @@ public class UserService {
     @Autowired
     AutoGenerateController autoGenerateController;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
 
 

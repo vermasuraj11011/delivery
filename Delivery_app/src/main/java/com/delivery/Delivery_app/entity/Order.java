@@ -1,13 +1,9 @@
 package com.delivery.Delivery_app.entity;
 
 import lombok.*;
-import org.apache.tomcat.jni.User;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,22 +14,25 @@ import java.util.List;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @OneToOne
     @JoinColumn(name = "CartID")
-    private Cart cart;
+    private Long cartId;
 
-//    @OneToMany
-//    @JoinColumn(name = "UserID")
-//    private User user;
+    @JoinColumn(name = "UserID")
+    private Long userId;
 
+    @JoinColumn(name = "Total_Amount")
     private Long totalAmount;
 
+    @JoinColumn(name = "Ordered_Time")
     private Date orderedTime;
 
+    @JoinColumn(name = "Estimated_Time")
     private Date estimatedTime;
 
+    @JoinColumn(name = "Status")
     private String status;
 
 }
