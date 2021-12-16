@@ -39,6 +39,9 @@ public class UserService {
 //        String enCodedPass = passwordEncoder.encode(login.getPassword());
         String password = hashing(login.getPassword());
         if(userRepository.checkLogin(login.getUserId(),password) != null){
+            User user = userRepository.findById(login.getUserId()).get();
+            user.setLogin(true);
+            userRepository.save(user);
             return true;
         }
         return false;

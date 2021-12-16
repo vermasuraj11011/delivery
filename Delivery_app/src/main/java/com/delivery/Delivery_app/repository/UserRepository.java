@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
+//    it is used to check if the pair of user-id and hash password exist or not
     @Query(value ="SELECT * from USER cl where cl.USER_ID=?1 AND cl.PASSWORD=?2",nativeQuery = true)
     public User checkLogin(Long USER_ID, String PASSWORD);
 }
