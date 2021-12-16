@@ -1,6 +1,5 @@
 package com.delivery.Delivery_app.repository;
 
-import com.delivery.Delivery_app.dto.CartDTO;
 import com.delivery.Delivery_app.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
