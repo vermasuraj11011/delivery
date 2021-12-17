@@ -15,10 +15,10 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping("/order/{userId}/{cartId}")
-    public ResponseEntity makeOrder(@PathVariable Long userId,
-                                    @PathVariable Long cartId){
+    public ResponseEntity makeOrder(@PathVariable("userId") Long userId,
+                                    @PathVariable("cartId") Long cartId){
 
-        int orderId = orderService.makeOrder(userId,cartId);
+        Long orderId = orderService.makeOrder(userId,cartId);
 
         return new ResponseEntity(orderId, HttpStatus.OK);
     }

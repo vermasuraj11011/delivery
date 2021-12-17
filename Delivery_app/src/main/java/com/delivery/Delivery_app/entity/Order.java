@@ -11,28 +11,38 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Table(name = "order_table")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @JoinColumn(name = "CartID")
+    @Column(name = "Cart_ID")
     private Long cartId;
 
-    @JoinColumn(name = "UserID")
+    @Column(name = "User_ID")
     private Long userId;
 
-    @JoinColumn(name = "Total_Amount")
+    @Column(name = "Total_Amount")
     private Long totalAmount;
 
-    @JoinColumn(name = "Ordered_Time")
-    private Date orderedTime;
+    @Column(name = "Ordered_Time")
+    private String orderedTime;
 
-    @JoinColumn(name = "Estimated_Time")
-    private Date estimatedTime;
+    @Column(name = "Estimated_Time")
+    private String estimatedTime;
 
-    @JoinColumn(name = "Status")
+    @Column(name = "Status")
     private String status;
 
+    public Order(Long cartId, Long userId, Long totalAmount,
+                           String orderedTime, String estimatedTime, String status){
+        this.cartId = cartId;
+        this.userId = userId;
+        this.totalAmount = totalAmount;
+        this.orderedTime = orderedTime;
+        this.estimatedTime = estimatedTime;
+        this.status = status;
+    }
 }

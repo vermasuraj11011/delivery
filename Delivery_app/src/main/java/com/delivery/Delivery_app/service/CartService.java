@@ -2,20 +2,27 @@ package com.delivery.Delivery_app.service;
 
 import com.delivery.Delivery_app.dto.CartDTO;
 import com.delivery.Delivery_app.entity.Cart;
+import com.delivery.Delivery_app.entity.Food;
 import com.delivery.Delivery_app.exception.EmptyValueException;
 import com.delivery.Delivery_app.repository.CartRepository;
+import com.delivery.Delivery_app.repository.FoodRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartService {
 
     @Autowired
     CartRepository cartRepository;
+
+    @Autowired
+    FoodRepository foodRepository;
 
     //
     public void addFoodToCart(Long cartId, Long foodId, Long quantity) {
@@ -47,9 +54,20 @@ public class CartService {
         }
         List<Cart> foodList = cartRepository.getListOfFood(cartId);
 
-        List<CartDTO> cartDTOList = modelMapper().map(foodList, new TypeToken<List<CartDTO>>() {}.getType());
+        List<CartDTO> cartDTOList = new ArrayList<>();
+
+        for(int i=0; i<foodList.size(); i++){
+            Food food =  foodRepository.findById(foodList.get(i).getFoodId()).get();
+
+            cartDTOList.add(new CartDTO(food,foodList.get(i).getQuantity()));
+        }
 
         return cartDTOList;
+    }
+
+    public void deleteCartData(Long cartId) {
+
+        cartRepository.deleteCartData(cartId);
     }
 
     private static ModelMapper modelMapper(){

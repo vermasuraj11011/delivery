@@ -1,8 +1,14 @@
 package com.delivery.Delivery_app.service;
 
-import com.delivery.Delivery_app.repository.OrderRepository;
+import com.delivery.Delivery_app.controller.AutoGenerateController;
+import com.delivery.Delivery_app.entity.*;
+import com.delivery.Delivery_app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -10,8 +16,113 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    public int makeOrder(Long userId, Long cartId) {
+    @Autowired
+    UserRepository userRepository;
 
-        return 1;
+    @Autowired
+    CartRepository cartRepository;
+
+    @Autowired
+    FoodRepository foodRepository;
+
+    @Autowired
+    RegionRepository regionRepository;
+
+    @Autowired
+    AutoGenerateController autoGenerateController;
+
+    public Long makeOrder(Long userId, Long cartId) {
+
+        Address address = userRepository.findById(userId).get().getAddress();
+
+        String userAddress = address.toString();
+
+        Cart foodItem =  cartRepository.getSingleFoodItem(cartId);
+
+        String restaurantAddress = foodRepository.findById(foodItem.getFoodId()).get().getRestaurant().getRestaurant_address();
+
+        String estimatedTime = etimatedTime(userAddress,restaurantAddress);
+
+        Long totalAmount = totalAmountOfCart(cartRepository.getListOfFood(cartId));
+
+        Long orderID = orderRepository.save(new Order(userId,cartId,totalAmount,getCurrentTime().getTime().toString(),estimatedTime,"Initialized")).getOrderId();
+
+        User u = userRepository.findById(userId).get();
+
+        u.setCartId(autoGenerateController.getValue());
+
+        userRepository.save(u);
+
+        return orderID;
+    }
+
+    private String etimatedTime(String userAddress, String restaurantAddress){
+
+        int jumps = findMinimumDistance(userAddress,restaurantAddress);
+
+        Calendar tempTime = getCurrentTime();
+
+        if(jumps == 0){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(15,20));
+        }
+        else if(jumps == 1){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(20,30));
+        }
+        else if(jumps == 2){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(30,40));
+        }
+        else if(jumps == 3){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(40,50));
+        }
+        else if(jumps == 4){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(50,60));
+        }
+        else if(jumps == 5){
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(60,80));
+        }
+        return tempTime.getTime().toString();
+    }
+
+    private int findMinimumDistance(String userAddress, String restaurantAddress){
+
+        Queue<String> queue = new LinkedList<>();
+
+        HashMap<String,Integer> map = new HashMap<>();
+
+        queue.add(userAddress);
+
+        map.put(userAddress,0);
+
+        while(!queue.isEmpty()) {
+
+            String s = queue.remove();
+
+            List<String> list = regionRepository.getRelation(s);
+
+            for (String temp : list) {
+                if (!map.containsKey(temp)) {
+                    queue.add(temp);
+                    map.put(temp, map.get(s) + 1);
+                }
+            }
+        }
+        return map.get(restaurantAddress);
+    }
+
+    private Long totalAmountOfCart(List<Cart> cartList){
+        Long sum = 0l;
+        for (Cart c : cartList){
+            sum = foodRepository.findById(c.getFoodId()).get().getFood_price();
+        }
+        return sum;
+    }
+
+    private Calendar getCurrentTime(){
+        Calendar now = Calendar.getInstance();
+        return now;
+    }
+
+    private int randomNumberGenerator(int a, int b){
+        return (int)(Math.random() * (b - a)) + a;
     }
 }
