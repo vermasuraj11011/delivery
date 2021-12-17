@@ -15,9 +15,9 @@ public class CartController {
     CartService cartService;
 
     @PostMapping("/cart/{cartId}/{foodId}/{quantity}")
-    public ResponseEntity addFoodToCart(@PathVariable Long cartId,
-                                        @PathVariable Long foodId,
-                                        @PathVariable Long quantity){
+    public ResponseEntity addFoodToCart(@PathVariable("cartId") Long cartId,
+                                        @PathVariable("foodId") Long foodId,
+                                        @PathVariable("quantity") Long quantity){
 
         cartService.addFoodToCart(cartId,foodId,quantity);
 
@@ -25,16 +25,24 @@ public class CartController {
     }
 
     @DeleteMapping("/cart/{cartId}/{foodId}")
-    public ResponseEntity deleteFoodFromCart(@PathVariable Long cartId,
-                                             @PathVariable Long foodId){
+    public ResponseEntity deleteFoodFromCart(@PathVariable("cartId") Long cartId,
+                                             @PathVariable("foodId") Long foodId){
 
         cartService.deleteFoodFromCart(cartId,foodId);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @DeleteMapping("/cart/{cartId}")
+    public ResponseEntity deleteCartData(@PathVariable("cartId") Long cartId){
+
+        cartService.deleteCartData(cartId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("/cart/{cartId}")
-    public ResponseEntity getFoodListInCart(@PathVariable Long cartId){
+    public ResponseEntity getFoodListInCart(@PathVariable("cartId") Long cartId){
 
         List foodList = cartService.getFoodListInCart(cartId);
 

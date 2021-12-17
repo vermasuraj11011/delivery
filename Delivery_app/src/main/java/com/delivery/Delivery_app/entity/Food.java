@@ -21,7 +21,7 @@ public class Food {
     private String food_name;
     private String food_description;
     private String food_category;
-    private String food_price;
+    private Long food_price;
 
     @ManyToOne
     @JsonIgnore

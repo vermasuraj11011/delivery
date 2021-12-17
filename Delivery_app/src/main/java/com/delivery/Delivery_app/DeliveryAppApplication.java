@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@EnableNeo4jRepositories
 public class DeliveryAppApplication {
 
 	public static void main(String[] args) {
