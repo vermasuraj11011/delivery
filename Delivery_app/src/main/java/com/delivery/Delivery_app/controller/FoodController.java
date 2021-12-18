@@ -34,6 +34,7 @@ public class FoodController {
     public String updateFood(@RequestBody Food food){
         return foodService.updateFood(food);
     }
+
     //  Delete food from existing db
     @DeleteMapping("/food/{id}")
     public String deleteRestaurant(@PathVariable("id") long food_id ){
