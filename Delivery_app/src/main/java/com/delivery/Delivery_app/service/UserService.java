@@ -20,7 +20,6 @@ public class UserService {
     @Autowired
     AutoGenerateController autoGenerateController;
 
-
     public User addUser(User user) {
         user.setCartId(autoGenerateController.getValue());
         user.setPassword(hashing(user.getPassword()));

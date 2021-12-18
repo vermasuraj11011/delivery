@@ -8,33 +8,42 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/cart")
 @RestController
 public class CartController {
 
     @Autowired
     CartService cartService;
 
-    @PostMapping("/cart/{cartId}/{foodId}/{quantity}")
-    public ResponseEntity addFoodToCart(@PathVariable Long cartId,
-                                        @PathVariable Long foodId,
-                                        @PathVariable Long quantity){
+    @PostMapping("/addFood/{cartId}/{foodId}/{quantity}")
+    public ResponseEntity addFoodToCart(@PathVariable("cartId") Long cartId,
+                                        @PathVariable("foodId") Long foodId,
+                                        @PathVariable("quantity") Long quantity){
 
         cartService.addFoodToCart(cartId,foodId,quantity);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/cart/{cartId}/{foodId}")
-    public ResponseEntity deleteFoodFromCart(@PathVariable Long cartId,
-                                             @PathVariable Long foodId){
+    @DeleteMapping("/deleteFood/{cartId}/{foodId}")
+    public ResponseEntity deleteFoodFromCart(@PathVariable("cartId") Long cartId,
+                                             @PathVariable("foodId") Long foodId){
 
         cartService.deleteFoodFromCart(cartId,foodId);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/cart/{cartId}")
-    public ResponseEntity getFoodListInCart(@PathVariable Long cartId){
+    @DeleteMapping("/deleteCart/{cartId}")
+    public ResponseEntity deleteCartData(@PathVariable("cartId") Long cartId){
+
+        cartService.deleteCartData(cartId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/foodList/{cartId}")
+    public ResponseEntity getFoodListInCart(@PathVariable("cartId") Long cartId){
 
         List foodList = cartService.getFoodListInCart(cartId);
 

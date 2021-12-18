@@ -1,7 +1,6 @@
 package com.delivery.Delivery_app.entity;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -11,19 +10,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Cart {
-
+public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Cart_ID")
-    private Long cartId;
+    @Column(name = "from_region")
+    private String fromRegion;
 
-    @Column(name = "Food_ID")
-    private Long foodId;
-
-    @Column(name = "Quantity")
-    private Long quantity;
-
+    @Column(name = "to_region")
+    private String toRegion;
 }
