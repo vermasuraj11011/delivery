@@ -6,14 +6,11 @@ import com.delivery.Delivery_app.entity.Food;
 import com.delivery.Delivery_app.exception.EmptyValueException;
 import com.delivery.Delivery_app.repository.CartRepository;
 import com.delivery.Delivery_app.repository.FoodRepository;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartService {
@@ -68,10 +65,5 @@ public class CartService {
     public void deleteCartData(Long cartId) {
 
         cartRepository.deleteCartData(cartId);
-    }
-
-    private static ModelMapper modelMapper(){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper;
     }
 }
