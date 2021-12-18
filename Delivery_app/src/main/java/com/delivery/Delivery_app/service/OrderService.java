@@ -6,8 +6,6 @@ import com.delivery.Delivery_app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -45,7 +43,7 @@ public class OrderService {
 
         Long totalAmount = totalAmountOfCart(cartRepository.getListOfFood(cartId));
 
-        Long orderID = orderRepository.save(new Order(userId,cartId,totalAmount,getCurrentTime().getTime().toString(),estimatedTime,"Initialized")).getOrderId();
+        Long orderID = orderRepository.save(new Order(cartId,userId,totalAmount,getCurrentTime().getTime().toString(),estimatedTime,"Initialized")).getOrderId();
 
         User u = userRepository.findById(userId).get();
 
@@ -54,6 +52,38 @@ public class OrderService {
         userRepository.save(u);
 
         return orderID;
+    }
+
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+
+        order.setStatus("Canceled");
+
+        orderRepository.save(order);
+    }
+
+    public void successOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+
+        order.setStatus("Successful");
+
+        orderRepository.save(order);
+    }
+
+    public List<Order> getOrderDetails(Long userId) {
+
+        List<Order> orderList = orderRepository.getOrderDetails(userId,"Initialized");
+
+        return orderList;
+    }
+
+    public List<Order> orderHistory(Long userId) {
+
+        List<Order> orderList = orderRepository.orderHistory(userId,"Canceled","Successful");
+
+//        System.out.println(orderList);
+
+        return orderList;
     }
 
     private String etimatedTime(String userAddress, String restaurantAddress){
@@ -112,7 +142,7 @@ public class OrderService {
     private Long totalAmountOfCart(List<Cart> cartList){
         Long sum = 0l;
         for (Cart c : cartList){
-            sum = foodRepository.findById(c.getFoodId()).get().getFood_price();
+            sum = sum + (foodRepository.findById(c.getFoodId()).get().getFood_price() * c.getQuantity());
         }
         return sum;
     }
