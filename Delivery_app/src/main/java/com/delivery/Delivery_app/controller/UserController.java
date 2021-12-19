@@ -49,5 +49,16 @@ public class UserController {
         }
     }
 
+    @PutMapping("")
+    public ResponseEntity<String> updateUser(@RequestBody User user){
+        boolean flag = userService.updateUser(user);
+        if(flag){
+            String msg = "User Details Updated Successfully";
+            return new ResponseEntity<>(msg,HttpStatus.OK);
+        }else{
+            String msg = "Unable to Update";
+            return new ResponseEntity<>(msg,HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 
 }

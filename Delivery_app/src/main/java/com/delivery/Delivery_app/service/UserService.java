@@ -3,6 +3,7 @@ package com.delivery.Delivery_app.service;
 import com.delivery.Delivery_app.controller.AutoGenerateController;
 import com.delivery.Delivery_app.entity.AutoGenerate;
 import com.delivery.Delivery_app.entity.Login;
+import com.delivery.Delivery_app.entity.Restaurant;
 import com.delivery.Delivery_app.entity.User;
 import com.delivery.Delivery_app.repository.AutoGenerateRepository;
 import com.delivery.Delivery_app.repository.UserRepository;
@@ -12,10 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -61,6 +59,25 @@ public class UserService {
             return false;
         }else {
             return true;
+        }
+    }
+
+    public boolean updateUser(User user) {
+        Optional<User> user1 = userRepository.findById(user.getUserId());
+        if (user1.isEmpty()){
+            return false;
+        }
+        try{
+            user1.get().setFirstName(user.getFirstName());
+            user1.get().setLastName(user.getLastName());
+            user1.get().setFirstName(user.getFirstName());
+            user1.get().setMobileNo(user.getMobileNo());
+            user1.get().setAddress(user.getAddress());
+            user1.get().setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user1.get());
+            return true;
+        }catch (Exception ex){
+            return false;
         }
     }
 
