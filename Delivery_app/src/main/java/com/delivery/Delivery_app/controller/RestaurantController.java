@@ -28,7 +28,7 @@ public class RestaurantController {
 
 //    add restaurant endpoint
     @PreAuthorize("hasAnyRole('ADMIN')")
-    @PostMapping("/restaurant/r")
+    @PostMapping("/restaurant")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant){
         return restaurantService.addRestaurant(restaurant);
     }

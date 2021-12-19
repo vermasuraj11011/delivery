@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@EnableNeo4jRepositories
 public class DeliveryAppApplication {
 
 	public static void main(String[] args) {

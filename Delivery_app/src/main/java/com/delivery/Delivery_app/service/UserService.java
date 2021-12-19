@@ -25,7 +25,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     public User addUser(User user) {
         user.setCartId(autoGenerateController.getValue());
 //        user.setPassword(hashing(user.getPassword()));    //hashing the plain password text

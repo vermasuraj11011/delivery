@@ -1,8 +1,7 @@
 package com.delivery.Delivery_app.dto;
 
+import com.delivery.Delivery_app.entity.Food;
 import lombok.*;
-
-import javax.persistence.JoinColumn;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,10 +10,7 @@ import javax.persistence.JoinColumn;
 @ToString
 public class CartDTO {
 
-    @JoinColumn(name = "FoodID")
-    private Long foodId;
-
-    @JoinColumn(name = "Quantity")
+    private Food food;
     private Long quantity;
 
 }

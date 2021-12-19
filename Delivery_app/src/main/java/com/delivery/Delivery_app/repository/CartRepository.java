@@ -15,28 +15,37 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
 
     // Inserting new food item to the cart
     @Modifying
-    @Query(value = "insert into CART(CART_ID,FOOD_ID,QUANTITY) values (:cartId, :foodId, :quantity)",
+    @Query(value = "insert into cart(CART_ID,FOOD_ID,QUANTITY) values (:cartId, :foodId, :quantity)",
     nativeQuery = true)
     void addFoodToCart(Long cartId, Long foodId, Long quantity);
 
     // Check if the food is already in the cart
-    @Query(value = "select count (*) from CART where CART_ID = :cartId and FOOD_ID = :foodId",
+    @Query(value = "select COUNT(*) from cart where CART_ID = :cartId and FOOD_ID = :foodId",
     nativeQuery = true)
     int checkIfFoodInCart(Long cartId, Long foodId);
 
     //Updating a quantity of the food in the cart
     @Modifying
-    @Query(value = "update CART set QUANTITY = :quantity where CART_ID = :cartId and FOOD_ID = :foodId",
+    @Query(value = "update cart set QUANTITY = :quantity where CART_ID = :cartId and FOOD_ID = :foodId",
     nativeQuery = true)
     void updateQuantity(Long cartId,Long foodId,Long quantity);
 
     // Deleting food item from the cart
     @Modifying
-    @Query(value = "delete from CART where CART_ID = :cartId and FOOD_ID = :foodId",
+    @Query(value = "delete from cart where CART_ID = :cartId and FOOD_ID = :foodId",
     nativeQuery = true)
     void deleteFoodFromCart(Long cartId, Long foodId);
 
     // Geting all the list of food in a cart
-    @Query(value = "select * from CART where CART_ID = :cartId",nativeQuery = true)
+    @Query(value = "select * from cart where CART_ID = :cartId",nativeQuery = true)
     List<Cart> getListOfFood(Long cartId);
+
+    // Getting a any single food item to get the restaurant address
+    @Query(value = "select * from cart where CART_ID = :cartId limit 1",nativeQuery = true)
+    Cart getSingleFoodItem(Long cartId);
+
+    // Deleting the cart from the cart table
+    @Modifying
+    @Query(value = "delete from cart where CART_ID = :cartId", nativeQuery = true)
+    void deleteCartData(Long cartId);
 }
