@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 //@EnableNeo4jRepositories
 public class DeliveryAppApplication {
 

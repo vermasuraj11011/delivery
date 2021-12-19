@@ -31,6 +31,7 @@ public class UserService {
 
     public User addUser(User user) {
         user.setCartId(autoGenerateController.getValue());
+        user.setRole("NORMAL");
 //        user.setPassword(hashing(user.getPassword()));    //hashing the plain password text
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User user1 = userRepository.save(user);
