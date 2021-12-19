@@ -3,6 +3,7 @@ package com.delivery.Delivery_app.controller;
 import com.delivery.Delivery_app.entity.Restaurant;
 import com.delivery.Delivery_app.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class RestaurantController {
     }
 
 //    add restaurant endpoint
-    @PostMapping("/restaurant")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/restaurant/r")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant){
         return restaurantService.addRestaurant(restaurant);
     }

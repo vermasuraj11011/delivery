@@ -7,6 +7,8 @@ import com.delivery.Delivery_app.entity.User;
 import com.delivery.Delivery_app.repository.AutoGenerateRepository;
 import com.delivery.Delivery_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -15,15 +17,19 @@ import java.security.MessageDigest;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    AutoGenerateController autoGenerateController;
+    private AutoGenerateController autoGenerateController;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public User addUser(User user) {
         user.setCartId(autoGenerateController.getValue());
-        user.setPassword(hashing(user.getPassword()));
+//        user.setPassword(hashing(user.getPassword()));    //hashing the plain password text
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User user1 = userRepository.save(user);
         return user1;
     }
