@@ -3,6 +3,7 @@ package com.delivery.Delivery_app.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -11,6 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "mobile_no", nullable = false,unique=true)
@@ -35,6 +37,8 @@ public class User {
     @Column(name = "cart_id",nullable = false, unique=true)
     private Long cartId;
 
+//    private String role;
     private boolean isLogin;
+    private String role;
 
 }

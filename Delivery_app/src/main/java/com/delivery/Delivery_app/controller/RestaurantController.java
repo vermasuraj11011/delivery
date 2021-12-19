@@ -37,6 +37,7 @@ public class RestaurantController {
         Restaurant restaurant1 = restaurantService.addRestaurant(restaurant);
         return new ResponseEntity<>(restaurant1, HttpStatus.OK);
     }
+
 //    update existing restaurant
     @PutMapping("")
     public ResponseEntity<String> updateRestaurant(@RequestBody Restaurant restaurant){
@@ -50,6 +51,7 @@ public class RestaurantController {
         }
 
     }
+
 //  Delete restaurant from existing db
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable("id") long restaurant_id ){
