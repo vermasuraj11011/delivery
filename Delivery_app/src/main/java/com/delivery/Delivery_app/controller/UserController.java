@@ -5,10 +5,9 @@ import com.delivery.Delivery_app.entity.User;
 import com.delivery.Delivery_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +29,13 @@ public class UserController {
         if(userService.isLogin(login)) return "U have sucessfull Login";
         else return "Please enter valid userId or password";
     }
+
+   /* @PutMapping("/role/{id}")
+    public User addRole(@RequestBody Set<Role> roles,){
+
+    }
+
+    */
 
 
 }

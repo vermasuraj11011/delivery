@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,11 +19,18 @@ public class CustomUserDetail implements UserDetails {
 
     private User user;
 
+//    public CustomUserDetail(User user) {
+//        this.user = user;
+//    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(user.getRoles().toString());
-       return user.getRoles().stream().map(role ->
-               new SimpleGrantedAuthority("ROLE_"+role)).collect(Collectors.toList());
+//        System.out.println(user.getRoles().toString());
+        HashSet<SimpleGrantedAuthority> set = new HashSet<>();
+        set.add(new SimpleGrantedAuthority(this.user.getRole()));
+//       return user.getRoles().stream().map(role ->
+//               new SimpleGrantedAuthority("ROLE_"+role)).collect(Collectors.toList());
+        return set;
     }
 
     @Override
@@ -33,8 +41,8 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public String getUsername() {
-        System.out.println(user.getFirstName()+" e");
-        return user.getFirstName();
+        System.out.println(user.getEmailId()+" e");
+        return user.getEmailId();
     }
 
     @Override

@@ -17,7 +17,7 @@ public class CustomUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(userName);
-        System.out.println(user);
+        System.out.println(user+" s");
         CustomUserDetail customUserDetail = null;
 
         if(user != null){
@@ -27,7 +27,7 @@ public class CustomUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not exist with name : "+userName);
         }
 //        System.out.println(userRepository.fi);
-        System.out.println(customUserDetail.getPassword());
+        System.out.println(customUserDetail.getPassword()+" "+customUserDetail.getUsername());
         return customUserDetail;
     }
 }

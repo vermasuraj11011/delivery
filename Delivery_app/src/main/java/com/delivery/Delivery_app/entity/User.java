@@ -38,10 +38,6 @@ public class User {
 
 //    private String role;
     private boolean isLogin;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name="user_role",joinColumns = @JoinColumn(name = "userId"),inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<Role> roles;
-
+    private String role;
 
 }

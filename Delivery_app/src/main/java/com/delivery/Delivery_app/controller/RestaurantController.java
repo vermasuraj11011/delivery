@@ -27,16 +27,17 @@ public class RestaurantController {
     }
 
 //    add restaurant endpoint
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/restaurant")
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant){
         return restaurantService.addRestaurant(restaurant);
     }
+
 //    update existing restaurant
     @PutMapping("/restaurant")
     public String updateRestaurant(@RequestBody Restaurant restaurant){
         return restaurantService.updateRestaurant(restaurant);
     }
+
 //  Delete restaurant from existing db
     @DeleteMapping("/restaurant/{id}")
     public String deleteRestaurant(@PathVariable("id") long restaurant_id ){

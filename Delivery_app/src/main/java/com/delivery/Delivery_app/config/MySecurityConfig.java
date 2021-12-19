@@ -1,5 +1,6 @@
 package com.delivery.Delivery_app.config;
 
+import com.delivery.Delivery_app.service.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userdetail;
+    private CustomUserService userdetail;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,22 +37,36 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
          */
 
         /*   implementing security for the ("/foods") url only*/
-      /*  http
+    /*  http
                 .authorizeRequests()
-                .antMatchers("/foods")
-                .fullyAuthenticated()
+                .antMatchers("/foods").fullyAuthenticated()
                 .and()
                 .formLogin();
-        */
+
+     */
 
 
-    /* http
+
+   /* http
                 .authorizeRequests()
                 .antMatchers("/foods")
                 .hasRole("ADMIN")
                 .and()
-                .formLogin();
+                .httpBasic();
+
     */
+
+         http
+                .authorizeRequests()
+//                .antMatchers("/user***").permitAll()   // this will url will be permited to all type of user or .antMatchers("/home","/public/***","register").permitAll()  acess all url with public in it
+                .antMatchers("/foods").hasAnyRole("ADMIN")  // role base permission
+                .anyRequest()
+                .authenticated()
+                .and()
+//                .formLogin();
+                .httpBasic();
+
+
     }
 
     @Override
