@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
 
+    // Getting list of to-regions that could be reached from from-region
     @Query(value = "select toRegion from Region where fromRegion = :userAddress")
     List<String> getRelation(String userAddress);
 

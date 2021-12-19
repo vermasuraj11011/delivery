@@ -1,7 +1,10 @@
 package com.delivery.Delivery_app.service;
 
 import com.delivery.Delivery_app.controller.AutoGenerateController;
+import com.delivery.Delivery_app.dto.CartDTO;
+import com.delivery.Delivery_app.dto.OrderDTO;
 import com.delivery.Delivery_app.entity.*;
+import com.delivery.Delivery_app.exception.WrongIDException;
 import com.delivery.Delivery_app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,17 @@ public class OrderService {
     @Autowired
     AutoGenerateController autoGenerateController;
 
+    @Autowired
+    CartService cartService;
+
     public Long makeOrder(Long userId, Long cartId) {
+
+        if(userRepository.findById(userId).isEmpty()){
+            throw new WrongIDException("No user present with such ID");
+        }
+        if(cartRepository.getSingleFoodItem(cartId) == null){
+            throw new WrongIDException("No cart present with such ID");
+        }
 
         Address address = userRepository.findById(userId).get().getAddress();
 
@@ -39,7 +52,7 @@ public class OrderService {
 
         String restaurantAddress = foodRepository.findById(foodItem.getFoodId()).get().getRestaurant().getRestaurant_address();
 
-        String estimatedTime = etimatedTime(userAddress,restaurantAddress);
+        String estimatedTime = estimatedTime(userAddress,restaurantAddress);
 
         Long totalAmount = totalAmountOfCart(cartRepository.getListOfFood(cartId));
 
@@ -55,45 +68,73 @@ public class OrderService {
     }
 
     public void cancelOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).get();
 
-        order.setStatus("Canceled");
+        Optional<Order> order = orderRepository.findById(orderId);
 
-        orderRepository.save(order);
+        if(order.isEmpty()){
+            throw new WrongIDException("No order present with such ID");
+        }
+
+        Order order1 = order.get();
+
+        order1.setStatus("Canceled");
+
+        orderRepository.save(order1);
     }
 
     public void successOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).get();
 
-        order.setStatus("Successful");
+        Optional<Order> order = orderRepository.findById(orderId);
 
-        orderRepository.save(order);
+        if(order.isEmpty()){
+            throw new WrongIDException("No order present with such ID");
+        }
+        Order order1 = order.get();
+
+        order1.setStatus("Successful");
+
+        orderRepository.save(order1);
     }
 
-    public List<Order> getOrderDetails(Long userId) {
+    public List<Order> getAllCurrentOrders(Long userId) {
 
-        List<Order> orderList = orderRepository.getOrderDetails(userId,"Initialized");
+        if(userRepository.findById(userId).isEmpty()){
+            throw new WrongIDException("No user present with such ID");
+        }
 
-        return orderList;
+        return orderRepository.getAllCurrentOrders(userId,"Initialized");
     }
 
     public List<Order> orderHistory(Long userId) {
 
-        List<Order> orderList = orderRepository.orderHistory(userId,"Canceled","Successful");
+        if(userRepository.findById(userId).isEmpty()){
+            throw new WrongIDException("No user present with such ID");
+        }
 
-//        System.out.println(orderList);
-
-        return orderList;
+        return orderRepository.orderHistory(userId,"Canceled","Successful");
     }
 
-    private String etimatedTime(String userAddress, String restaurantAddress){
+    public OrderDTO getOrder(Long orderId) {
+
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if (order.isEmpty()){
+            throw new WrongIDException("No order present with such ID");
+        }
+
+        List<CartDTO> cartDTOList = cartService.getFoodListInCart(order.get().getCartId());
+
+        return new OrderDTO(order.get().getOrderedTime(),order.get().getEstimatedTime(),order.get().getStatus(),order.get().getTotalAmount(),cartDTOList);
+    }
+
+    private String estimatedTime(String userAddress, String restaurantAddress){
 
         int jumps = findMinimumDistance(userAddress,restaurantAddress);
 
         Calendar tempTime = getCurrentTime();
 
         if(jumps == 0){
-            tempTime.add(Calendar.MINUTE,randomNumberGenerator(15,20));
+            tempTime.add(Calendar.MINUTE,randomNumberGenerator(15,25));
         }
         else if(jumps == 1){
             tempTime.add(Calendar.MINUTE,randomNumberGenerator(20,30));
@@ -148,11 +189,11 @@ public class OrderService {
     }
 
     private Calendar getCurrentTime(){
-        Calendar now = Calendar.getInstance();
-        return now;
+        return Calendar.getInstance();
     }
 
     private int randomNumberGenerator(int a, int b){
         return (int)(Math.random() * (b - a)) + a;
     }
+
 }
