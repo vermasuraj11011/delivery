@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -37,15 +37,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
          */
 
         /*   implementing security for the ("/foods") url only*/
-    /*  http
+      http
                 .authorizeRequests()
-                .antMatchers("/foods").fullyAuthenticated()
+                .antMatchers("/login").fullyAuthenticated()
                 .and()
-                .formLogin();
-
-     */
-
-
+                .httpBasic();
 
    /* http
                 .authorizeRequests()
@@ -56,15 +52,17 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     */
 
-         http
+    /*   http
                 .authorizeRequests()
 //                .antMatchers("/user***").permitAll()   // this will url will be permited to all type of user or .antMatchers("/home","/public/***","register").permitAll()  acess all url with public in it
-                .antMatchers("/foods").hasAnyRole("ADMIN")  // role base permission
+                .antMatchers("/foods").hasRole("ADMIN")  // role base permission
                 .anyRequest()
                 .authenticated()
                 .and()
 //                .formLogin();
                 .httpBasic();
+*/
+
 
 
     }

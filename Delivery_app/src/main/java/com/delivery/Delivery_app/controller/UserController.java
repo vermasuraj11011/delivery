@@ -30,12 +30,10 @@ public class UserController {
         else return "Please enter valid userId or password";
     }
 
-   /* @PutMapping("/role/{id}")
-    public User addRole(@RequestBody Set<Role> roles,){
-
+    @PostMapping("/logout")
+    public String logout(@RequestBody Login login){
+        if(!userService.isLogout(login)) return "U have sucessfull Logout";
+        else return "Please enter valid userId";
     }
-
-    */
-
 
 }

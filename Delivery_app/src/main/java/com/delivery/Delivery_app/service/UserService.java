@@ -38,19 +38,36 @@ public class UserService {
     }
 
     public boolean isLogin(Login login) {
-        if(userRepository.findById(login.getUserId()).get().isLogin()) return true;
+        boolean isLog = userRepository.findById(login.getUserId()).get().isLogin();
+        if(isLog) return true;
 //        String enCodedPass = passwordEncoder.encode(login.getPassword());
-        String password = hashing(login.getPassword());
-        if(userRepository.checkLogin(login.getUserId(),password) != null){
-            User user = userRepository.findById(login.getUserId()).get();
-            user.setLogin(true);
-            userRepository.save(user);
-            return true;
-        }
-        return false;
+//        String password = hashing(login.getPassword());
+//        if(userRepository.checkLogin(login.getUserId(),enCodedPass) != null){
+                User user = userRepository.findById(login.getUserId()).get();
+                user.setLogin(true);
+                userRepository.save(user);
+                return true;
+//            }
+//        return false;
     }
 
-    public String hashing(String password) {
+    public boolean isLogout(Login login) {
+        boolean isLog = userRepository.findById(login.getUserId()).get().isLogin();
+        if(isLog) {
+            User user = userRepository.findById(login.getUserId()).get();
+            user.setLogin(false);
+            userRepository.save(user);
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+
+
+
+
+   /* public String hashing(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA");
             messageDigest.update(password.getBytes());
@@ -64,5 +81,5 @@ public class UserService {
             System.out.println(e);
             return "";
         }
-    }
+    }*/
 }

@@ -4,6 +4,7 @@ import com.delivery.Delivery_app.entity.Food;
 import com.delivery.Delivery_app.entity.Restaurant;
 import com.delivery.Delivery_app.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.List;
 public class FoodController {
     @Autowired
     FoodService foodService;
+
+
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     //    get all food endpoint
     @GetMapping("/foods")
     public List<Food> getAllFoods(){
@@ -29,6 +33,7 @@ public class FoodController {
     public Food addFood(@RequestBody Food food,@PathVariable("id") long restaurant_id){
         return foodService.addFood(food,restaurant_id);
     }
+
     //    update existing food
     @PutMapping("/food")
     public String updateFood(@RequestBody Food food){
