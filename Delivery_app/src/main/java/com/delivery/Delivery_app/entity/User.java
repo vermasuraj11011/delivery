@@ -27,6 +27,7 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    private String role;
     @Enumerated(value = EnumType.STRING)
     private Address address;
 

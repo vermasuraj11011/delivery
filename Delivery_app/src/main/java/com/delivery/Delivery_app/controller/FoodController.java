@@ -4,43 +4,61 @@ import com.delivery.Delivery_app.entity.Food;
 import com.delivery.Delivery_app.entity.Restaurant;
 import com.delivery.Delivery_app.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/food")
 public class FoodController {
     @Autowired
     FoodService foodService;
     //    get all food endpoint
-    @GetMapping("/foods")
-    public List<Food> getAllFoods(){
-        return foodService.getAllFoods();
+    @GetMapping("")
+    public ResponseEntity<List<Food>> getAllFoods(){
+        List<Food> foodList = foodService.getAllFoods();
+        return new ResponseEntity<>(foodList, HttpStatus.OK);
     }
 
     //    get food endpoint
-    @GetMapping("/food/{id}")
-    public Food getRestaurant(@PathVariable("id") long food_id){
-        return foodService.getFood(food_id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Food> getRestaurant(@PathVariable("id") long food_id){
+        Food food = foodService.getFood(food_id);
+        return new ResponseEntity<>(food,HttpStatus.OK);
     }
 
     //    add food endpoint
-    @PostMapping("/food/restaurant/{id}")
-    public Food addFood(@RequestBody Food food,@PathVariable("id") long restaurant_id){
-        return foodService.addFood(food,restaurant_id);
+    @PostMapping("/restaurant/{id}")
+    public ResponseEntity<Food> addFood(@RequestBody Food food,@PathVariable("id") long restaurant_id){
+        Food food1 = foodService.addFood(food,restaurant_id);
+        return new ResponseEntity<>(food1,HttpStatus.OK);
     }
     //    update existing food
-    @PutMapping("/food")
-    public String updateFood(@RequestBody Food food){
-        return foodService.updateFood(food);
+    @PutMapping("")
+    public ResponseEntity<String> updateFood(@RequestBody Food food){
+        boolean flag = foodService.updateFood(food);
+        if(flag){
+            String msg = "Updated Successfully";
+            return new ResponseEntity<>(msg,HttpStatus.OK);
+        }else{
+            String msg = "Updated Unsuccessful";
+            return new ResponseEntity<>(msg,HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     //  Delete food from existing db
-    @DeleteMapping("/food/{id}")
-    public String deleteRestaurant(@PathVariable("id") long food_id ){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRestaurant(@PathVariable("id") long food_id ){
         boolean flag = foodService.deleteFood(food_id);
-        if(flag) return "Delete Food";
-        else return "Delete Failed";
+        if(flag){
+            String msg = "Deleted Successfully";
+            return new ResponseEntity<>(msg,HttpStatus.OK);
+        }else{
+            String msg = "Deleted Unsuccessful";
+            return new ResponseEntity<>(msg,HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
 }

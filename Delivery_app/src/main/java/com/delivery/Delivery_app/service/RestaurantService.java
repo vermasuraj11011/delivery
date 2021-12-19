@@ -22,18 +22,18 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public String updateRestaurant(Restaurant restaurant) {
+    public boolean updateRestaurant(Restaurant restaurant) {
         Optional<Restaurant> restaurant1 = restaurantRepository.findById(restaurant.getRestaurant_id());
-        if (restaurant1.isEmpty()){
-            return null;
-        }
+//        if (restaurant1.isEmpty()){
+//            return new NullPointerException();
+//        }
         try{
             restaurant1.get().setRestaurant_name(restaurant.getRestaurant_name());
             restaurant1.get().setRestaurant_address(restaurant.getRestaurant_address());
             restaurantRepository.save(restaurant1.get());
-            return "Update Successfully";
+            return true;
         }catch (Exception ex){
-            return "Update Failed";
+            return false;
         }
     }
 
