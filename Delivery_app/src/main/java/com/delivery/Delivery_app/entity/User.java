@@ -36,7 +36,6 @@ public class User {
     @Column(name = "cart_id",nullable = false, unique=true)
     private Long cartId;
 
-//    private String role;
     private boolean isLogin;
     private String role;
 
