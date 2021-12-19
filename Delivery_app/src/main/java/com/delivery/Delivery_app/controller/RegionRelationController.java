@@ -22,6 +22,6 @@ public class RegionRelationController {
 
         regionRelationService.addRelation(regionRelation);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity("Relations added",HttpStatus.OK);
     }
 }

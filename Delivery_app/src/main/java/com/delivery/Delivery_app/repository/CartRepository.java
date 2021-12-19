@@ -36,11 +36,11 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
     nativeQuery = true)
     void deleteFoodFromCart(Long cartId, Long foodId);
 
-    // Geting all the list of food in a cart
+    // Getting all the list of food in a cart
     @Query(value = "select * from cart where CART_ID = :cartId",nativeQuery = true)
     List<Cart> getListOfFood(Long cartId);
 
-    // Getting a any single food item to get the restaurant address
+    // Getting any single food item to get the restaurant address
     @Query(value = "select * from cart where CART_ID = :cartId limit 1",nativeQuery = true)
     Cart getSingleFoodItem(Long cartId);
 

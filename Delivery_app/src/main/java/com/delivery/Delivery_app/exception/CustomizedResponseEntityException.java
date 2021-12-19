@@ -26,7 +26,7 @@ public class CustomizedResponseEntityException extends ResponseEntityExceptionHa
     }
 
     // Handles empty values exception
-    @ExceptionHandler(EmptyValueException.class)
+    @ExceptionHandler(WrongIDException.class)
     public final ResponseEntity handleEmptyValueException(Exception e, WebRequest webRequest){
 
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),
