@@ -44,10 +44,10 @@ public class FoodService {
 
     }
 
-    public String updateFood(Food food) {
+    public boolean updateFood(Food food) {
         Optional<Food> food1 = foodRepository.findById(food.getFood_id());
         if(food1.isEmpty()){
-            return null;
+            return false;
         }
 
         try{
@@ -56,9 +56,9 @@ public class FoodService {
             food1.get().setFood_description(food.getFood_description());
             food1.get().setFood_price(food.getFood_price());
             foodRepository.save(food1.get());
-            return "Updated Successfully";
+            return true;
         }catch (Exception ex){
-            return "Update Failed";
+            return false;
         }
     }
 
